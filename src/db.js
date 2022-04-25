@@ -4,24 +4,26 @@ const fs = require('fs');
 const path = require('path');
 
 
-//PRODUCCION
-const { Client } = require('pg');
-
 const {
-  DB_USER, DB_PASSWORD, DB_HOST, DATABASE_URL
+  DB_USER, DB_PASSWORD, DB_HOST, DB_NAME, DATABASE_URL
 } = process.env;
-
 //PRODUCCION
 
-// const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/videogames`, {
-//   logging: false, // set to console.log to see the raw SQL queries
-//   native: false, // lets Sequelize know we can use pg-native for ~30% more speed
-// });
-const sequelize = new Client({
-  connectionString: DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
+// const { Client } = require('pg');
+
+// const sequelize = new Client({
+  //   connectionString: DATABASE_URL,
+  //   ssl: {
+  //     rejectUnauthorized: false
+  //   }
+  // });
+// sequelize.connect();
+    
+//PRODUCCION
+
+const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`, {
+  logging: false, // set to console.log to see the raw SQL queries
+  native: false, // lets Sequelize know we can use pg-native for ~30% more speed
 });
 const basename = path.basename(__filename);
 
@@ -54,7 +56,6 @@ Genere.belongsToMany(Videogame, { through: "videogame_genere" });
 User.hasMany(Videogame, { as: 'videogames', foreignKey: 'userId' } );
 Videogame.belongsTo(User, { as: 'user' })
 
-sequelize.connect();
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
