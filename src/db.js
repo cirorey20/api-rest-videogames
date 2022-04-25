@@ -15,7 +15,6 @@ const {
   // });
   const sequelize = new Sequelize({
     connectionString: DATABASE_URL,
-    dialect: 'postgres',
     ssl: {
       rejectUnauthorized: false
     }
