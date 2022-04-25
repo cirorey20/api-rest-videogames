@@ -52,6 +52,7 @@ Genere.belongsToMany(Videogame, { through: "videogame_genere" });
 User.hasMany(Videogame, { as: 'videogames', foreignKey: 'userId' } );
 Videogame.belongsTo(User, { as: 'user' })
 
+sequelize.connect()
 
 
 module.exports = {
