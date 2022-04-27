@@ -36,7 +36,7 @@ const sequelize = new Sequelize(LINK, {
 setupModels(sequelize);
 
 //si lo pongo en true se reinicia con cada cambio
-sequelize.sync({ force: false });
+sequelize.sync();
 // sequelize.sync({ force: true });
 
 module.exports = sequelize;
