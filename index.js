@@ -1,31 +1,47 @@
-//                       _oo0oo_
-//                      o8888888o
-//                      88" . "88
-//                      (| -_- |)
-//                      0\  =  /0
-//                    ___/`---'\___
-//                  .' \\|     |// '.
-//                 / \\|||  :  |||// \
-//                / _||||| -:- |||||- \
-//               |   | \\\  -  /// |   |
-//               | \_|  ''\---/''  |_/ |
-//               \  .-\__  '-'  ___/-. /
-//             ___'. .'  /--.--\  `. .'___
-//          ."" '<  `.___\_<|>_/___.' >' "".
-//         | | :  `- \`.;`\ _ /`;.`/ - ` : | |
-//         \  \ `_.   \_ __\ /__ _/   .-` /  /
-//     =====`-.____`.___ \_____/___.-`___.-'=====
-//                       `=---='
-//     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-const server = require('./src/app.js');
-const { conn } = require('./src/db.js');
+const express = require('express');
+const cors = require('cors');
+const router = require('./src/routes/index.js');
 
-// Syncing all the models at once.
+const { logErrors, errorHandler } = require('./middleware/errorHandler.js');
 
+const app = express();
 const port = process.env.PORT || 3001;
-conn.sync({ force: false }).then(() => {
-  server.listen(port, () => {
-    console.log(`%s listening at ${port}`); // eslint-disable-line no-console
-  });
+
+app.use(express.json());
+
+const whitelist = ['http://localhost:3000', 'https://myapiboyar.com'];
+const options = {
+  origin: (origin, callback) => {
+    if (whitelist.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('no permitido'))
+    }
+  }
+}
+app.use(cors(options));
+
+app.get('/', (req, res, next) => {
+  res.send("Esta funcionando correctamente!");
+})
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // update to match the domain you will make the request from
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Headers', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  next();
 });
-// conn.connect();
+
+app.use(router)
+require('./src/strategies');
+
+app.use(logErrors);
+// app.use(boomErrorHandler);
+app.use(errorHandler);
+
+
+
+app.listen(port, () => {
+  console.log(`Utilizando el puerto: ${port}`)
+})

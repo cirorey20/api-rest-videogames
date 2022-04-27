@@ -1,11 +1,10 @@
-// const axios = require('axios');
-const { User } = require('../../db.js');
+const {models} = require('../../../libs/sequelize');
 const bcrypt = require('bcrypt')
 const boom = require('@hapi/boom');
 
 async function getUsers() { //datos desde la api
     try {
-        const allsUsers = await User.findAll();
+        const allsUsers = await models.User.findAll();
         
         return allsUsers;
     } catch (error) {
@@ -15,11 +14,12 @@ async function getUsers() { //datos desde la api
 
 async function findUser(id) {
     try {
-        const user = await User.findByPk(id, {
+        const user = await models.User.findByPk(id, {
             include: [
                 {
-                    association: 'videogames'
-                }
+                    association: 'videogames',
+                },
+                
             ]
         });
         if(!user){
@@ -32,7 +32,7 @@ async function findUser(id) {
 }
 
 async function findByEmail(email) {
-    const rta = await User.findOne({
+    const rta = await models.User.findOne({
         where: { email }
     })
     if(!rta){
@@ -48,7 +48,7 @@ async function createUser(body) { //datos desde la api
             return boom.notFound("not found create")
         }
         const hash = await bcrypt.hash(body.password, 10);
-        const user = await User.create({
+        const user = await models.User.create({
             ...body,
             password: hash
         });

@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { Videogame, Genere, User } = require('../../db.js');
+const { models } = require('../../../libs/sequelize.js');
 const {API_KEY, URL_GAMES} = process.env;
 const {mapApi} = require('../utils');
 
@@ -68,9 +68,9 @@ async function detailById(id) { //detalles desde la api por ID
 
 async function getDbGames() { //datos desde la db
     try {
-        const gamesDb = await Videogame.findAll({
+        const gamesDb = await models.Videogame.findAll({
             include: {
-                model: Genere,
+                model: models.Genre,
                 attributes: ['name'],
                 through: {//esto es una comprobacion que se realiza mediante el atributo tipos
                     attributes: [],//este atributo
@@ -86,8 +86,8 @@ async function getDbGames() { //datos desde la db
                 released: ele.released,
                 rating: ele.rating,
                 platforms: ele.platforms,
-                genres: ele.generes.map(el=>el.name),
-                userId: ele.userId,
+                genres: ele.Genres.map(el=>el.name),
+                userId: ele.userId ? ele.userId : null, 
                 createdInDb: ele.createdAt? ele.createdAt : null
             }
         })
@@ -108,17 +108,18 @@ async function getAllGames() { //union de la api con mi db
         let tres = await api[2]
         
         const joinData = db.concat(uno).concat(dos).concat(tres);
+        // return uno.concat(dos).concat(tres);
         return joinData;
     } catch (error) {
         console.log(error)
     }
 }
 
-// Crear un nuevo Videogame
+// Crear un nuevo Videogame 
 async function createGame({name, img, description, released, rating, platforms, userId, genres}) {
     try {        
 
-        let newGame = await Videogame.create({
+        let newGame = await models.Videogame.create({
             name,
             img,
             description,
@@ -128,8 +129,8 @@ async function createGame({name, img, description, released, rating, platforms, 
             userId
         });
         if( genres ) {
-            let genresAdd = await Genere.findAll({ where: {name: genres} });
-            await newGame.addGenere(genresAdd);
+            let genresAdd = await models.Genre.findAll({ where: {name: genres} });
+            await newGame.addGenre(genresAdd);
         }
         return newGame;
     } catch (error) {
@@ -141,7 +142,7 @@ async function createGame({name, img, description, released, rating, platforms, 
 async function editGame(id, changes) {
     try {        
 
-        let game = await Videogame.findByPk(id);
+        let game = await models.Videogame.findByPk(id);
         if(!game){
             return boom.notFound('videogame not found')
         }
@@ -152,11 +153,11 @@ async function editGame(id, changes) {
     }    
 }
 
-// Delete Game
+// // Delete Game
 async function deleteGame(id) {
     try {        
 
-        let game = await Videogame.findByPk(id);
+        let game = await models.Videogame.findByPk(id);
         if(!game){
             return boom.notFound('videogame not found')
         }

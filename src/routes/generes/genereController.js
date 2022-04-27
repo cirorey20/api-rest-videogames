@@ -1,5 +1,6 @@
 const axios = require('axios');
-const { Genere } = require('../../db.js');
+// const { Genere } = require('../../db.js');
+const { models } = require('../../../libs/sequelize');
 const {API_KEY, URL_GENRES} = process.env;
 
 // console.log(API_KEY);
@@ -9,12 +10,12 @@ async function getGenres() { //datos desde la api
         const urlGenres = await axios.get(`${URL_GENRES}?key=${API_KEY}`);
         
         urlGenres.data.results.map((ele) => {
-            Genere.findOrCreate({
+            models.Genre.findOrCreate({
                 where: {name: ele.name}
             })
         })
 
-        const allsGenres = await Genere.findAll();
+        const allsGenres = await models.Genre.findAll();
         
         return allsGenres;
     } catch (error) {

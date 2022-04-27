@@ -1,9 +1,9 @@
 const {Router} = require('express');
 const router = Router();
 const passport = require('passport');
-const { getAllGames, searchApiGames, getDbGames, detailById, createGame, editGame, deleteGame } = require('./videogameController');
+const { getAllGames, getDbGames, searchApiGames, detailById, createGame, editGame, deleteGame} = require('./videogameController');
 
-router.get('/', async(req,res)=> { //[ ] GET /videogames - req.query
+router.get('/', async(req,res)=> { //[ ] GET /videogames 
     try {        
         
         const game = req.query.name;
@@ -32,7 +32,7 @@ router.get('/', async(req,res)=> { //[ ] GET /videogames - req.query
 
             let apiGames = await getAllGames();
             res.send(apiGames)
-            
+
         }
     } catch (error) {
         console.log(error)

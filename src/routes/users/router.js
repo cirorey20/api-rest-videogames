@@ -1,9 +1,6 @@
 const {Router} = require('express');
 const router = Router();
 const { getUsers, createUser, findUser } = require('./userController');
-// const { Genere } = require('../../db.js');
-// const {User} = require('../../db.js');
-
 
 router.get('/', async(req,res) => {
     try {
