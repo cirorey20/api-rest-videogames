@@ -3,17 +3,26 @@ const  {Sequelize } = require('sequelize');
 const { config } = require('../config/config.js');
 const setupModels = require('../src/db/models');
 
-const USER = encodeURIComponent(config.dbUser);
-const PASSWORD = encodeURIComponent(config.dbPassword);
-const URI = `postgres://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/${config.dbName}`;
+// const USER = encodeURIComponent(config.dbUser);
+// const PASSWORD = encodeURIComponent(config.dbPassword);
+// const URI = `postgres://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/${config.dbName}`;
 
-const URIPRO = config.dbUrl;
+
+let LINK = '';
+
+if (config.isProd){
+  LINK = config.dbUrl;
+} else {
+  const USER = encodeURIComponent(config.dbUser);
+  const PASSWORD = encodeURIComponent(config.dbPassword);
+  LINK = `postgres://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/${config.dbName}`;
+}
 
 /*cuando creamos la nueva instancia de sequelize le pasamos como valor
 por parametro URI, siendo la conexion que hicimos anteriormente
 y ya por detras eso utiliza la conexion de pool sin problemas
 */
-const sequelize = new Sequelize(URIPRO, {
+const sequelize = new Sequelize(LINK, {
   dialect: 'postgres', //elijo la db que voy a utilizar
   logging: false, //Asi se muestra cada consultan en la consola
   // ssl = {
@@ -27,6 +36,6 @@ const sequelize = new Sequelize(URIPRO, {
 setupModels(sequelize);
 
 //si lo pongo en true se reinicia con cada cambio
-sequelize.sync({ force: false });
+// sequelize.sync({ force: false });
 
 module.exports = sequelize;
