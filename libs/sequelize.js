@@ -1,30 +1,20 @@
 const  {Sequelize } = require('sequelize');
 
-const { config } = require('../config/config.js');
 const setupModels = require('../src/db/models');
+const {config} = require('../config/config');
 
-let LINK = '';
-
-if (config.isProd){
-  LINK = config.dbUrl;
-} else {
-  const USER = encodeURIComponent(config.dbUser);
-  const PASSWORD = encodeURIComponent(config.dbPassword);
-  LINK = `postgres://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/${config.dbName}`;
+const options = {
+  dialect: 'postgres', //elijo la db que voy a utilizar
+  logging: config.isProd ? false : true,
 }
 
-/*cuando creamos la nueva instancia de sequelize le pasamos como valor
-por parametro URI, siendo la conexion que hicimos anteriormente
-y ya por detras eso utiliza la conexion de pool sin problemas
-*/
-const sequelize = new Sequelize(LINK, {
-  dialect: 'postgres', //elijo la db que voy a utilizar
-  logging: false, //Asi se muestra cada consultan en la consola
-  // ssl: {
-  //   require: true,
-  //   rejectUnauthorized:false
-  // }
-});
+if(config.isProd) {
+  options.ssl = {
+    rejectUnauthorized:false
+  }
+}
+
+const sequelize = new Sequelize(config.dbUrl, options);
 
 setupModels(sequelize);
 
