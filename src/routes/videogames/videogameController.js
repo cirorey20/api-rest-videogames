@@ -9,17 +9,17 @@ const boom = require('@hapi/boom');
 
 async function getApiGames() { //datos desde la api
     try {
-        const urlGamesTwenty = await axios.get(`${URL_GAMES}?key=${API_KEY}`);
-        const urlGamesForty = await axios.get(`${URL_GAMES}?key=${API_KEY}&page=2&page_size=40`);
-        const urlGamesFortyNext = await axios.get(`${URL_GAMES}?key=${API_KEY}&page=3&page_size=40`);
+        // const urlGamesTwenty = await axios.get(`${URL_GAMES}?key=${API_KEY}`);
+        // const urlGamesForty = await axios.get(`${URL_GAMES}?key=${API_KEY}&page=2&page_size=40`);
+        // const urlGamesFortyNext = await axios.get(`${URL_GAMES}?key=${API_KEY}&page=3&page_size=40`);
 
-        const urlTwenty = mapApi(urlGamesTwenty)
-        const urlForty = mapApi(urlGamesForty)
-        const urlFortyNext = mapApi(urlGamesFortyNext)
+        // const urlTwenty = mapApi(urlGamesTwenty)
+        // const urlForty = mapApi(urlGamesForty)
+        // const urlFortyNext = mapApi(urlGamesFortyNext)
 
-        const joinUrl = [urlTwenty].concat([urlForty]).concat([urlFortyNext])
+        // const joinUrl = [urlTwenty].concat([urlForty]).concat([urlFortyNext])
 
-        return joinUrl
+        // return joinUrl
 
     } catch (error) {
         console.log(error)
@@ -28,20 +28,20 @@ async function getApiGames() { //datos desde la api
 
 async function searchApiGames(name) { //datos desde la api de busqueda
     try {
-        const urlGames = await axios.get(`${URL_GAMES}?key=${API_KEY}&search=${name}`);
-        let arrayApi = urlGames.data.results.map((ele) => {
-            return {
-                id: ele.id,
-                name: ele.name,
-                img: ele.background_image,
-                description: null,
-                released: ele.released,
-                rating: ele.rating,
-                platforms: ele.platforms.map(el => el.platform.name),
-                genres: ele.genres.map(el => el.name),
-            }
-        })
-        return arrayApi;
+        // const urlGames = await axios.get(`${URL_GAMES}?key=${API_KEY}&search=${name}`);
+        // let arrayApi = urlGames.data.results.map((ele) => {
+        //     return {
+        //         id: ele.id,
+        //         name: ele.name,
+        //         img: ele.background_image,
+        //         description: null,
+        //         released: ele.released,
+        //         rating: ele.rating,
+        //         platforms: ele.platforms.map(el => el.platform.name),
+        //         genres: ele.genres.map(el => el.name),
+        //     }
+        // })
+        // return arrayApi;
     } catch (error) {
         console.log(error)
     }
@@ -49,18 +49,18 @@ async function searchApiGames(name) { //datos desde la api de busqueda
 
 async function detailById(id) { //detalles desde la api por ID
     try {
-        const urlGames = await axios.get(`${URL_GAMES}/${id}?key=${API_KEY}`);
-        let detailGame = urlGames.data
-        return {
-            id: detailGame.id,
-            name: detailGame.name,
-            img: detailGame.background_image,
-            description: detailGame.description,
-            released: detailGame.released,
-            rating: detailGame.rating,
-            platforms: detailGame.platforms.map(el => el.platform.name),
-            genres: detailGame.genres.map(el => el.name),
-        };
+        // const urlGames = await axios.get(`${URL_GAMES}/${id}?key=${API_KEY}`);
+        // let detailGame = urlGames.data
+        // return {
+        //     id: detailGame.id,
+        //     name: detailGame.name,
+        //     img: detailGame.background_image,
+        //     description: detailGame.description,
+        //     released: detailGame.released,
+        //     rating: detailGame.rating,
+        //     platforms: detailGame.platforms.map(el => el.platform.name),
+        //     genres: detailGame.genres.map(el => el.name),
+        // };
     } catch (error) {
         console.log(error)
     }
@@ -100,16 +100,16 @@ async function getDbGames() { //datos desde la db
 
 async function getAllGames() { //union de la api con mi db
     try {
-        let api = await getApiGames();
+        // let api = await getApiGames();
         let db = await getDbGames();
 
-        let uno = await api[0]
-        let dos = await api[1]
-        let tres = await api[2]
+        // let uno = await api[0]
+        // let dos = await api[1]
+        // let tres = await api[2]
         
-        const joinData = db.concat(uno).concat(dos).concat(tres);
+        // const joinData = db.concat(uno).concat(dos).concat(tres);
         // return uno.concat(dos).concat(tres);
-        return joinData;
+        return db;
     } catch (error) {
         console.log(error)
     }
