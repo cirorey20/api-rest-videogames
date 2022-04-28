@@ -69,31 +69,32 @@ async function detailById(id) { //detalles desde la api por ID
 
 async function getDbGames() { //datos desde la db
     try {
-        const gamesDb = await models.Videogame.findAll({
-            include: {
-                model: models.Genre,
-                attributes: ['name'],
-                through: {//esto es una comprobacion que se realiza mediante el atributo tipos
-                    attributes: [],//este atributo
-                },
-            }
-        });
-        let mapData = gamesDb.map((ele) => {
-            return {
-                id: ele.id,
-                name: ele.name,
-                img: ele.img,
-                description: ele.description,
-                released: ele.released,
-                rating: ele.rating,
-                platforms: ele.platforms,
-                genres: ele.Genres.map(el=>el.name),
-                userId: ele.userId ? ele.userId : null, 
-                createdInDb: ele.createdAt? ele.createdAt : null
-            }
-        })
+        const gamesDb = await models.Videogame.findAll();
+        // const gamesDb = await models.Videogame.findAll({
+        //     include: {
+        //         model: models.Genre,
+        //         attributes: ['name'],
+        //         through: {//esto es una comprobacion que se realiza mediante el atributo tipos
+        //             attributes: [],//este atributo
+        //         },
+        //     }
+        // });
+        // let mapData = gamesDb.map((ele) => {
+        //     return {
+        //         id: ele.id,
+        //         name: ele.name,
+        //         img: ele.img,
+        //         description: ele.description,
+        //         released: ele.released,
+        //         rating: ele.rating,
+        //         platforms: ele.platforms,
+        //         genres: ele.Genres.map(el=>el.name),
+        //         userId: ele.userId ? ele.userId : null, 
+        //         createdInDb: ele.createdAt? ele.createdAt : null
+        //     }
+        // })
         
-        return mapData;
+        return gamesDb;
     } catch (error) {
         console.log(error)
     }
@@ -101,12 +102,12 @@ async function getDbGames() { //datos desde la db
 
 async function getAllGames() { //union de la api con mi db
     try {
-        let api = await getApiGames();
+        // let api = await getApiGames();
         let db = await getDbGames();
 
-        let uno = await api[0]
-        let dos = await api[1]
-        let tres = await api[2]
+        // let uno = await api[0]
+        // let dos = await api[1]
+        // let tres = await api[2]
         
         // const joinData = db.concat(uno).concat(dos).concat(tres);
         // return uno.concat(dos).concat(tres);
