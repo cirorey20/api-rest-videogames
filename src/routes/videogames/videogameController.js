@@ -29,20 +29,20 @@ async function getApiGames() { //datos desde la api
 
 async function searchApiGames(name) { //datos desde la api de busqueda
     try {
-        // const urlGames = await axios.get(`${URL_GAMES}?key=${API_KEY}&search=${name}`);
-        // let arrayApi = urlGames.data.results.map((ele) => {
-        //     return {
-        //         id: ele.id,
-        //         name: ele.name,
-        //         img: ele.background_image,
-        //         description: null,
-        //         released: ele.released,
-        //         rating: ele.rating,
-        //         platforms: ele.platforms.map(el => el.platform.name),
-        //         genres: ele.genres.map(el => el.name),
-        //     }
-        // })
-        // return arrayApi;
+        const urlGames = await axios.get(`${config.urlGames}?key=${config.apiKey}&search=${name}`);
+        let arrayApi = urlGames.data.results.map((ele) => {
+            return {
+                id: ele.id,
+                name: ele.name,
+                img: ele.background_image,
+                description: null,
+                released: ele.released,
+                rating: ele.rating,
+                platforms: ele.platforms.map(el => el.platform.name),
+                genres: ele.genres.map(el => el.name),
+            }
+        })
+        return arrayApi;
     } catch (error) {
         console.log(error)
     }
@@ -109,8 +109,8 @@ async function getAllGames() { //union de la api con mi db
         let tres = await api[2]
         
         // const joinData = db.concat(uno).concat(dos).concat(tres);
-        return uno.concat(dos).concat(tres);
-        // return db;
+        // return uno.concat(dos).concat(tres);
+        return db;
     } catch (error) {
         console.log(error)
     }

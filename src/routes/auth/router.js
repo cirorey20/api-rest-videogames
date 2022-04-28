@@ -2,7 +2,8 @@ const {Router} = require('express');
 const router = Router();
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
-const { JWT_SECRET } = process.env;
+// const { JWT_SECRET } = process.env;
+const {config} = require('../../../config/config');
 const boom = require('@hapi/boom');
 
 router.post('/login', 
@@ -14,7 +15,7 @@ router.post('/login',
                 sub: user.id,
                 role: user.role
             }
-            const token = jwt.sign(payload, JWT_SECRET);
+            const token = jwt.sign(payload, config.jwtSecret);
             res.json({
                 payload,
                 token
