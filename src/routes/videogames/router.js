@@ -1,10 +1,21 @@
 const {Router} = require('express');
 const router = Router();
+const axios = require('axios');
 const passport = require('passport');
+const {API_KEY, URL_GAMES} = process.env;
 const { getAllGames, getDbGames, searchApiGames, detailById, createGame, editGame, deleteGame} = require('./videogameController');
 
 router.get('/', async(req,res)=> { //[ ] GET /videogames 
-    try {        
+
+    try {
+        const urlGamesTwenty = await axios.get(`https://api.rawg.io/api/games?key=89b25dc3f69b4e97be52b1971e8bd158`);
+        const rta = urlGamesTwenty.data
+        res.send(rta)
+
+    } catch (error) {
+        console.log(error)
+    }
+    // try {        
         
         // const game = req.query.name;
         // if(game) {
@@ -30,13 +41,13 @@ router.get('/', async(req,res)=> { //[ ] GET /videogames
             // }
         // } else {
 
-            let apiGames = await getAllGames();
-            res.send(apiGames)
+    //         let apiGames = await getAllGames();
+    //         res.send(apiGames)
 
-        // }
-    } catch (error) {
-        console.log(error)
-    }
+    //     // }
+    // } catch (error) {
+    //     console.log(error)
+    // }
 })
 
 router.get('/:id', async(req,res) => {
