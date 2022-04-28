@@ -9,9 +9,22 @@ module.exports = {
     url: URI,
     dialect: 'postgres',
   },
+  // production: {
+  //   url: config.dbUrl,
+  //   // url: URI,
+  //   dialect: 'postgres',
+  // }
   production: {
     url: config.dbUrl,
     // url: URI,
-    dialect: 'postgres',
+    use_env_variable: 'DATABASE_URL',
+    dialect: 'postgresql',
+    logging: false,
+        dialectOptions: {
+      ssl: {      /* <----- Add SSL option */
+        require: true,
+        rejectUnauthorized: false 
+      }
+    },
   }
 }
