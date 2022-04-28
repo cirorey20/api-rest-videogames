@@ -20,10 +20,10 @@ y ya por detras eso utiliza la conexion de pool sin problemas
 const sequelize = new Sequelize(LINK, {
   dialect: 'postgres', //elijo la db que voy a utilizar
   logging: false, //Asi se muestra cada consultan en la consola
-  ssl: {
-    require: true,
-    rejectUnauthorized:false
-  }
+  // ssl: {
+  //   require: true,
+  //   rejectUnauthorized:false
+  // }
 });
 
 setupModels(sequelize);
