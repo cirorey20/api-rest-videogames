@@ -6,12 +6,12 @@ const URI = `postgres://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/${
 
 module.exports = {
   development: {
-    url: config.dbUrl,
+    url: URI,
     dialect: 'postgres',
   },
   
   production: {
-    url: config.dbUrl,
+    // url: config.dbUrl,
     use_env_variable: 'DATABASE_URL', //IMPORTANTE si quiero hacer deploy en sequelize con un ORM
     dialect: 'postgres',
     logging: false,
