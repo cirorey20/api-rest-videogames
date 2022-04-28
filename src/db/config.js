@@ -6,7 +6,7 @@ const URI = `postgres://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/${
 
 module.exports = {
   development: {
-    url: URI,
+    url: config.dbUrl,
     dialect: 'postgres',
   },
   
@@ -18,7 +18,7 @@ module.exports = {
         dialectOptions: {
       ssl: {      /* <----- Add SSL option */
         require: true,
-        rejectUnauthorized: false 
+        rejectUnauthorized: true 
       }
     },
   }

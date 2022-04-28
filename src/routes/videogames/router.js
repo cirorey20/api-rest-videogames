@@ -2,6 +2,7 @@ const {Router} = require('express');
 const router = Router();
 const passport = require('passport');
 const { getAllGames, getDbGames, searchApiGames, detailById, createGame, editGame, deleteGame} = require('./videogameController');
+const { models } = require('../../../libs/sequelize.js');
 
 router.get('/', async(req,res)=> { //[ ] GET /videogames 
 
@@ -32,7 +33,9 @@ router.get('/', async(req,res)=> { //[ ] GET /videogames
         // } else {
 
             // let apiGames = await getAllGames();
-            res.send('apiGames')
+            let apiGames = await models.Videogame.findAll();
+            console.log(apiGames)
+            res.send(apiGames)
 
         // }
     } catch (error) {
