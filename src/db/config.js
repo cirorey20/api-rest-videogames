@@ -13,12 +13,12 @@ module.exports = {
   production: {
     url: config.dbUrl,
     use_env_variable: 'DATABASE_URL', //IMPORTANTE si quiero hacer deploy en sequelize con un ORM
-    dialect: 'postgresql',
+    dialect: 'postgres',
     logging: false,
         dialectOptions: {
       ssl: {      /* <----- Add SSL option */
         require: true,
-        rejectUnauthorized: true 
+        rejectUnauthorized: false 
       }
     },
   }
