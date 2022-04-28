@@ -22,7 +22,8 @@ const options = {
 app.use(cors(options));
 
 app.get('/', (req, res, next) => {
-  res.send("Esta funcionando correctamente!");
+  res.redirect('/videogames')
+  // res.send("Esta funcionando correctamente!");
 })
 
 // app.use((req, res, next) => {
