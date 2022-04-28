@@ -9,6 +9,12 @@ const config = {
   dbName: process.env.DB_NAME,
   dbPort: process.env.DB_PORT,
 
+  apiKey: process.env.API_KEY,
+  urlGames: process.env.URL_GAMES,
+  urlGenres: process.env.URL_GENRES,
+
+  jwtSecret: process.env.JWT_SECRET,
+
   dbUrl: process.env.DATABASE_URL
 }
 
