@@ -3,8 +3,9 @@ const router = Router();
 const passport = require('passport');
 const { getAllGames, getDbGames, searchApiGames, detailById, createGame, editGame, deleteGame} = require('./videogameController');
 const { models } = require('../../../libs/sequelize.js');
+const boom = require('@hapi/boom');
 
-router.get('/', async(req,res)=> { //[ ] GET /videogames 
+router.get('/', async(req,res, next)=> { //[ ] GET /videogames 
 
     try {        
         
@@ -33,11 +34,16 @@ router.get('/', async(req,res)=> { //[ ] GET /videogames
         // } else {
 
             let apiGames = await getAllGames();
+            if(!apiGames){
+                boom.notFound("not-found")
+            }
             res.send(apiGames)
 
         // }
     } catch (error) {
         console.log(error)
+        next(error)
+
     }
 })
 
