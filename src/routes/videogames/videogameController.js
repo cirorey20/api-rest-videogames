@@ -102,7 +102,7 @@ async function getDbGames() { //datos desde la db
 async function getAllGames() { //union de la api con mi db
     try {
         let api = await getApiGames();
-        // let db = await getDbGames();
+        let db = await getDbGames();
 
         let uno = await api[0]
         let dos = await api[1]
