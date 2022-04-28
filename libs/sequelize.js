@@ -22,22 +22,25 @@ if (config.isProd){
 por parametro URI, siendo la conexion que hicimos anteriormente
 y ya por detras eso utiliza la conexion de pool sin problemas
 */
-// const sequelize = new Sequelize(LINK, {
-//   dialect: 'postgres', //elijo la db que voy a utilizar
-//   logging: true, //Asi se muestra cada consultan en la consola
-//   // ssl = {
-//   //   rejectUnauthorized:false
-//   // }
-//   ssl: {
-//     rejectUnauthorized:false
-//   }
-// });
-const sequelize = new Sequelize({
-  connectionString: LINK,
+const sequelize = new Sequelize(LINK, {
+  dialect: 'postgres', //elijo la db que voy a utilizar
+  logging: false, //Asi se muestra cada consultan en la consola
+  // ssl = {
+  //   rejectUnauthorized:false
+  // }
   ssl: {
-    rejectUnauthorized: false
+    require: true,
+    rejectUnauthorized:false
   }
 });
+
+
+// const sequelize = new Sequelize({
+//   connectionString: LINK,
+//   ssl: {
+//     rejectUnauthorized: false
+//   }
+// });
 
 setupModels(sequelize);
 
