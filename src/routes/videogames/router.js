@@ -32,9 +32,7 @@ router.get('/', async(req,res)=> { //[ ] GET /videogames
             // }
         // } else {
 
-            // let apiGames = await getAllGames();
-            let apiGames = await models.Videogame.findAll();
-            console.log(apiGames)
+            let apiGames = await getAllGames();
             res.send(apiGames)
 
         // }
