@@ -31,8 +31,8 @@ router.get('/', async(req,res)=> { //[ ] GET /videogames
             // }
         // } else {
 
-            let apiGames = await getAllGames();
-            res.send(apiGames)
+            // let apiGames = await getAllGames();
+            res.send('apiGames')
 
         // }
     } catch (error) {
