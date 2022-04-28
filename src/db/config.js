@@ -9,15 +9,10 @@ module.exports = {
     url: URI,
     dialect: 'postgres',
   },
-  // production: {
-  //   url: config.dbUrl,
-  //   // url: URI,
-  //   dialect: 'postgres',
-  // }
+  
   production: {
     url: config.dbUrl,
-    // url: URI,
-    use_env_variable: 'DATABASE_URL',
+    use_env_variable: 'DATABASE_URL', //IMPORTANTE si quiero hacer deploy en sequelize con un ORM
     dialect: 'postgresql',
     logging: false,
         dialectOptions: {
