@@ -1,9 +1,7 @@
 const axios = require('axios');
 const { models } = require('../../../libs/sequelize');
-// const {API_KEY, URL_GENRES} = process.env;
 const {config} = require('../../../config/config');
 
-// console.log(API_KEY);
 
 async function getGenres() { //datos desde la api
     try {

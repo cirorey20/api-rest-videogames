@@ -2,7 +2,6 @@ const { Pool } = require('pg');
 
 const { config } = require('../config/config');
 
-// let URI = '';
 const options = {};
 
 if (config.isProd) {

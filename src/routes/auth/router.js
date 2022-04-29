@@ -2,9 +2,7 @@ const {Router} = require('express');
 const router = Router();
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
-// const { JWT_SECRET } = process.env;
 const {config} = require('../../../config/config');
-const boom = require('@hapi/boom');
 
 router.post('/login', 
     passport.authenticate('local', {session:false}),

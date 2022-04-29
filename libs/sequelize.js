@@ -20,7 +20,4 @@ const sequelize = new Sequelize(config.dbUrl, options);
 
 setupModels(sequelize);
 
-//si lo pongo en true se reinicia con cada cambio
-// sequelize.sync({ force: true });
-
 module.exports = sequelize;
