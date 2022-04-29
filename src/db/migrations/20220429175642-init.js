@@ -3,6 +3,7 @@
 const {USER_TABLE} = require('../models/User');
 const {VIDEOGAME_TABLE} = require('../models/Videogame');
 const {GENRE_TABLE} = require('../models/Genre');
+const {VIDEOGAME_GENRE_TABLE} = require('../models/videogame-genre');
 
 const {DataTypes} = require('sequelize');
 
@@ -87,6 +88,36 @@ module.exports = {
         allowNull: false,
       },
     });
+    await queryInterface.createTable(VIDEOGAME_GENRE_TABLE, {
+      id:{
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER
+      },
+      videogameId: {
+        field: 'videogame_id',
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        references: {
+          model: VIDEOGAME_TABLE,
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
+      },
+      genreId: {
+        field: 'genre_id',
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        references: {
+          model: GENRE_TABLE,
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
+      },
+    })
     
   },
 
@@ -94,5 +125,6 @@ module.exports = {
     await queryInterface.dropTable(USER_TABLE);
     await queryInterface.dropTable(VIDEOGAME_TABLE);
     await queryInterface.dropTable(GENRE_TABLE);
+    await queryInterface.dropTable(VIDEOGAME_GENRE_TABLE);
   }
 };

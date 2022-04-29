@@ -50,7 +50,9 @@ class Videogame extends Model {
       as: 'user'
     });
     this.belongsToMany(models.Genre, {
-      through: 'videogame_genre'
+      through: models.VideogameGenre,
+      foreignKey: 'videogameId',
+      otherKey: 'genreId'
     });
   }
   static config(sequelize) {

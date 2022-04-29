@@ -17,9 +17,12 @@ const GenreSchema = {
 
 class Genre extends Model {
   static associate(models) {
-    this.belongsToMany(models.Videogame, {
-        through: 'videogame_genre'
-    })
+
+    // this.belongsToMany(models.Videogame, {
+    //   through: models.VideogameGenre,
+    //   foreignKey: 'videogameId',
+    //   otherKey: 'genreId'
+    // });
   }
   static config(sequelize) {
     return {
