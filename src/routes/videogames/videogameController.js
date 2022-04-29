@@ -101,16 +101,16 @@ async function getDbGames() { //datos desde la db
 
 async function getAllGames() { //union de la api con mi db
     try {
-        let api = await getApiGames();
+        // let api = await getApiGames();
         let db = await getDbGames();
 
-        let uno = await api[0]
-        let dos = await api[1]
-        let tres = await api[2]
+        // let uno = await api[0]
+        // let dos = await api[1]
+        // let tres = await api[2]
         
-        const joinData = db.concat(uno).concat(dos).concat(tres);
-        return uno.concat(dos).concat(tres);
-        // return joinData;
+        // const joinData = db.concat(uno).concat(dos).concat(tres);
+        // return uno.concat(dos).concat(tres);
+        return db;
     } catch (error) {
         console.log(error)
     }
