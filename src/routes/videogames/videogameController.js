@@ -8,17 +8,17 @@ const boom = require('@hapi/boom');
 
 async function getApiGames() { //datos desde la api
     try {
-        const urlGamesTwenty = await axios.get(`${config.urlGames}?key=${config.apiKey}`);
-        const urlGamesForty = await axios.get(`${config.urlGames}?key=${config.apiKey}&page=2&page_size=40`);
-        const urlGamesFortyNext = await axios.get(`${config.urlGames}?key=${config.apiKey}&page=3&page_size=40`);
+        // const urlGamesTwenty = await axios.get(`${config.urlGames}?key=${config.apiKey}`);
+        // const urlGamesForty = await axios.get(`${config.urlGames}?key=${config.apiKey}&page=2&page_size=40`);
+        // const urlGamesFortyNext = await axios.get(`${config.urlGames}?key=${config.apiKey}&page=3&page_size=40`);
 
-        const urlTwenty = mapApi(urlGamesTwenty)
-        const urlForty = mapApi(urlGamesForty)
-        const urlFortyNext = mapApi(urlGamesFortyNext)
+        // const urlTwenty = mapApi(urlGamesTwenty)
+        // const urlForty = mapApi(urlGamesForty)
+        // const urlFortyNext = mapApi(urlGamesFortyNext)
 
-        const joinUrl = [urlTwenty].concat([urlForty]).concat([urlFortyNext])
+        // const joinUrl = [urlTwenty].concat([urlForty]).concat([urlFortyNext])
 
-        return joinUrl
+        // return joinUrl
 
     } catch (error) {
         console.log(error)
@@ -86,7 +86,7 @@ async function getDbGames() { //datos desde la db
                 released: ele.released,
                 rating: ele.rating,
                 platforms: ele.platforms,
-                genres: ele.Genres.map(el=>el.name),
+                genres: ele.Genres ? ele.Genres.map(el=>el.name) : null,
                 userId: ele.userId ? ele.userId : null, 
                 createdInDb: ele.createdAt? ele.createdAt : null
             }
