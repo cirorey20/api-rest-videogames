@@ -2,16 +2,6 @@ const {models} = require('../../../libs/sequelize');
 const bcrypt = require('bcrypt')
 const boom = require('@hapi/boom');
 
-async function getUsers() { //datos desde la api
-    try {
-        const allsUsers = await models.User.findAll();
-        
-        return allsUsers;
-    } catch (error) {
-        console.log(error)
-    }
-}
-
 async function findUser(id) {
     try {
         const user = await models.User.findByPk(id, {
@@ -61,7 +51,6 @@ async function createUser(body) { //datos desde la api
 }
 
 module.exports = {
-    getUsers,
     createUser,
     findByEmail,
     findUser

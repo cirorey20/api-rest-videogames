@@ -1,6 +1,5 @@
 const { Strategy, ExtractJwt } = require('passport-jwt');
 const {config} = require('../../config/config');
-// const { JWT_SECRET } = process.env;
 
 const options = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

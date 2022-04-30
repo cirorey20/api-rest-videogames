@@ -3,10 +3,10 @@
 const {USER_TABLE} = require('../models/User');
 const {VIDEOGAME_TABLE} = require('../models/Videogame');
 const {GENRE_TABLE} = require('../models/Genre');
-// const {VIDEOGAME_GENRE_TABLE} = require('../models/videogame-genre');
+const {VIDEOGAME_GENRE_TABLE} = require('../models/videogame-genre');
+
 const {DataTypes} = require('sequelize');
 
-// const {models} = require('../../../libs/sequelize');
 
 module.exports = {
   async up (queryInterface, Sequelize) {
@@ -96,32 +96,37 @@ module.exports = {
         type: Sequelize.DATE
       },
     });
-    // await queryInterface.createTable(VIDEOGAME_GENRE_TABLE, 
-    //   {
-    //     id: {
-    //       type: DataTypes.UUID,
-    //       defaultValue: DataTypes.UUIDV4,
-    //       allowNull: false,
-    //       primaryKey: true
-    //     },
-    //     videogameId: {
-    //       field: 'videogame_id',
-    //       allowNull: false,
-    //       type: DataTypes.TEXT,
-    //     },
-    //     genreId: {
-    //         field: 'genre_id',
-    //         allowNull: false,
-    //         type: DataTypes.TEXT,
-    //     },
-    //   },{
-    //     classMethods: {
-    //       associate: function(models) {
-    //         Videogame.belongsToMany(models.Genre, {through:VIDEOGAME_GENRE_TABLE})
-    //         Genre.belongsToMany(models.Videogame, {through:VIDEOGAME_GENRE_TABLE})
-    //       }
-    //     }
-    //   })
+    await queryInterface.createTable(VIDEOGAME_GENRE_TABLE, 
+      {
+        id: {
+          type: DataTypes.UUID,
+          defaultValue: DataTypes.UUIDV4,
+          allowNull: false,
+          primaryKey: true
+        },
+        videogameId: {
+            field: 'videogame_id',
+            allowNull: false,
+            type: DataTypes.TEXT,
+            references: {
+                model: 'videogames',
+                key: 'id'
+            },
+            onUpdate: 'CASCADE',
+            onDelete: 'SET NULL'
+        },
+        genreId: {
+            field: 'genre_id',
+            allowNull: false,
+            type: DataTypes.TEXT,
+            references: {
+                model: 'genres',
+                key: 'id'
+            },
+            onUpdate: 'CASCADE',
+            onDelete: 'SET NULL'
+        },
+    })
 
   },
 
@@ -129,6 +134,6 @@ module.exports = {
     await queryInterface.dropTable(USER_TABLE);
     await queryInterface.dropTable(VIDEOGAME_TABLE);
     await queryInterface.dropTable(GENRE_TABLE);
-    // await queryInterface.dropTable(VIDEOGAME_GENRE_TABLE);
+    await queryInterface.dropTable(VIDEOGAME_GENRE_TABLE);
   }
 };

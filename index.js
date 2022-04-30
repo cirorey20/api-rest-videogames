@@ -1,5 +1,5 @@
 const express = require('express');
-const cors = require('cors');
+
 const router = require('./src/routes/index.js');
 
 const { logErrors, errorHandler } = require('./middleware/errorHandler.js');
@@ -9,21 +9,8 @@ const port = process.env.PORT || 3001;
 
 app.use(express.json());
 
-// const whitelist = ['http://localhost:3000', 'https://myapiboyar.com'];
-// const options = {
-//   origin: (origin, callback) => {
-//     if (whitelist.includes(origin) || !origin) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error('no permitido'))
-//     }
-//   }
-// }
-// app.use(cors(options));
-
 app.get('/', (req, res, next) => {
-  // res.redirect('/videogames')
-  res.send("Api VideoGames!");
+  res.send("Api VideoGames, By Ciro Rey!");
 })
 
 app.use((req, res, next) => {

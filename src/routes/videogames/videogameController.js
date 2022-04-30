@@ -8,17 +8,17 @@ const boom = require('@hapi/boom');
 
 async function getApiGames() { //datos desde la api
     try {
-        // const urlGamesTwenty = await axios.get(`${config.urlGames}?key=${config.apiKey}`);
-        // const urlGamesForty = await axios.get(`${config.urlGames}?key=${config.apiKey}&page=2&page_size=40`);
-        // const urlGamesFortyNext = await axios.get(`${config.urlGames}?key=${config.apiKey}&page=3&page_size=40`);
+        const urlGamesTwenty = await axios.get(`${config.urlGames}?key=${config.apiKey}`);
+        const urlGamesForty = await axios.get(`${config.urlGames}?key=${config.apiKey}&page=2&page_size=40`);
+        const urlGamesFortyNext = await axios.get(`${config.urlGames}?key=${config.apiKey}&page=3&page_size=40`);
 
-        // const urlTwenty = mapApi(urlGamesTwenty)
-        // const urlForty = mapApi(urlGamesForty)
-        // const urlFortyNext = mapApi(urlGamesFortyNext)
+        const urlTwenty = mapApi(urlGamesTwenty)
+        const urlForty = mapApi(urlGamesForty)
+        const urlFortyNext = mapApi(urlGamesFortyNext)
 
-        // const joinUrl = [urlTwenty].concat([urlForty]).concat([urlFortyNext])
+        const joinUrl = [urlTwenty].concat([urlForty]).concat([urlFortyNext])
 
-        // return joinUrl
+        return joinUrl
 
     } catch (error) {
         console.log(error)
@@ -103,16 +103,16 @@ async function getDbGames() { //datos desde la db
 
 async function getAllGames() { //union de la api con mi db
     try {
-        // let api = await getApiGames();
+        let api = await getApiGames();
         let db = await getDbGames();
 
-        // let uno = await api[0]
-        // let dos = await api[1]
-        // let tres = await api[2]
+        let uno = await api[0]
+        let dos = await api[1]
+        let tres = await api[2]
         
-        // const joinData = db.concat(uno).concat(dos).concat(tres);
+        const joinData = db.concat(uno).concat(dos).concat(tres);
         // return uno.concat(dos).concat(tres);
-        return db;
+        return joinData;
     } catch (error) {
         console.log(error)
     }
@@ -134,14 +134,6 @@ async function createGame({name, img, description, released, rating, platforms, 
         if( genres ) {
             let genresAdd = await models.Genre.findAll({ where: {name: genres} });
             await newGame.addGenre(genresAdd);
-            //por cada genero va a agregar el mismo userId
-            // for (let i = 0; i < genres.length; i++) {
-            //     let genresAdd = await models.Genre.findAll({ where: {name: genres[i]} });
-            //     await models.VideogameGenre.create({
-            //         videogameId: newGame.id,
-            //         genreId: genresAdd[0].id
-            //     });
-            // }
         }
         return newGame;
     } catch (error) {
