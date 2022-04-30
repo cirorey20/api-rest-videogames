@@ -21,6 +21,21 @@ async function getGenres() { //datos desde la api
     }
 }
 
+async function genresByIdUser(idUser) { //datos desde la api
+    try {
+        const rta = await models.User.findByPk(idUser, {
+            include: {
+                
+            }
+        })
+
+        return rta
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 module.exports = {
     getGenres,
+    genresByIdUser
 }

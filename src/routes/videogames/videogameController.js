@@ -67,7 +67,8 @@ async function detailById(id) { //detalles desde la api por ID
 
 async function getDbGames() { //datos desde la db
     try {
-        
+        // const gamesDb = await models.Videogame.findAll()
+
         const gamesDb = await models.Videogame.findAll({
             include: {
                 model: models.Genre,
@@ -77,6 +78,7 @@ async function getDbGames() { //datos desde la db
                 },
             }
         });
+        // console.log("PRUEBA",gamesDb)
         let mapData = gamesDb.map((ele) => {
             return {
                 id: ele.id,
@@ -132,6 +134,14 @@ async function createGame({name, img, description, released, rating, platforms, 
         if( genres ) {
             let genresAdd = await models.Genre.findAll({ where: {name: genres} });
             await newGame.addGenre(genresAdd);
+            //por cada genero va a agregar el mismo userId
+            // for (let i = 0; i < genres.length; i++) {
+            //     let genresAdd = await models.Genre.findAll({ where: {name: genres[i]} });
+            //     await models.VideogameGenre.create({
+            //         videogameId: newGame.id,
+            //         genreId: genresAdd[0].id
+            //     });
+            // }
         }
         return newGame;
     } catch (error) {

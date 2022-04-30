@@ -6,19 +6,19 @@ const {GENRE_TABLE} = require('./Genre');
 const VIDEOGAME_GENRE_TABLE = 'videogames_genres';
 
 const VideogameGenreSchema = {
-    id:{
+    id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: DataTypes.INTEGER
+        primaryKey: true
     },
     videogameId: {
         field: 'videogame_id',
         allowNull: false,
-        type: DataTypes.INTEGER,
+        type: DataTypes.TEXT,
         references: {
-          model: VIDEOGAME_TABLE,
-          key: 'id'
+            model: 'videogames',
+            key: 'id'
         },
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL'
@@ -26,9 +26,9 @@ const VideogameGenreSchema = {
     genreId: {
         field: 'genre_id',
         allowNull: false,
-        type: DataTypes.INTEGER,
+        type: DataTypes.TEXT,
         references: {
-            model: GENRE_TABLE,
+            model: 'genres',
             key: 'id'
         },
         onUpdate: 'CASCADE',
@@ -39,6 +39,15 @@ const VideogameGenreSchema = {
 class VideogameGenre extends Model {
     static associate(models) {
         //associations
+        // models.Videogame.belongsToMany(models.Genre, {
+        //     through: 'videogames_genres',
+        //     foreignKey: 'videogame_id'
+        // });
+        // models.Genre.belongsToMany(models.Videogame, {
+        //     through: 'videogames_genres',
+        //     foreignKey: 'videogame_id'
+        // });
+        // this.belongsToMany(models.Genre, {through:VIDEOGAME_GENRE_TABLE})
     }
     static config(sequelize) {
         return {

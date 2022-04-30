@@ -1,10 +1,18 @@
 const {Router} = require('express');
 const router = Router();
-const {getGenres} = require('./genereController');
+const {getGenres, genresByIdUser} = require('./genereController');
 
 router.get('/', async(req,res) => {
     try {
         let genres = await getGenres();
+        res.send(genres)
+    } catch (error) {
+        console.log(error)
+    }
+})
+router.get('/id-user/:id', async(req,res) => {
+    try {
+        let genres = await genresByIdUser(req.params.id);
         res.send(genres)
     } catch (error) {
         console.log(error)

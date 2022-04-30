@@ -1,7 +1,7 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 
 const VIDEOGAME_TABLE = 'videogames';
-
+const VIDEOGAME_GENRE_TABLE = 'videogames_genres';
 const VideogameSchema = {
   id: {
     type: DataTypes.UUID,
@@ -49,11 +49,13 @@ class Videogame extends Model {
     this.belongsTo(models.User, {
       as: 'user'
     });
+    
     this.belongsToMany(models.Genre, {
       through: models.VideogameGenre,
       foreignKey: 'videogameId',
       otherKey: 'genreId'
     });
+    // this.belongsToMany(models.Genre, {through:VIDEOGAME_GENRE_TABLE})
   }
   static config(sequelize) {
     return {
