@@ -3,7 +3,6 @@ const router = Router();
 const passport = require('passport');
 const { getAllGames, getDbGames, searchApiGames, detailById, createGame, editGame, deleteGame} = require('./videogameController');
 const boom = require('@hapi/boom');
-const {models} = require('../../../libs/sequelize');
 
 router.get('/', async(req,res, next)=> { //[ ] GET /videogames 
 
@@ -49,15 +48,12 @@ router.get('/', async(req,res, next)=> { //[ ] GET /videogames
 
 router.get('/:id', async(req,res) => {
     try {
-        //dbSearch
-        let db = await models.Videogame.findByPk(req.params.id)
-        //api
         let getById = await detailById(req.params.id);
-
-        if (db) res.send(db)
-        else if (getById) res.send(getById)
-        else res.send("No existe ese ID")
-        
+        if(!getById) {
+            res.send('not found');    
+        } else {
+            res.send(getById);
+        }
     } catch (error) {
         console.log(error)
     }

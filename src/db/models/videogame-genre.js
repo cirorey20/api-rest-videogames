@@ -20,8 +20,8 @@ const VideogameGenreSchema = {
             model: 'videogames',
             key: 'id'
         },
+        onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
-        onDelete: 'SET NULL'
     },
     genreId: {
         field: 'genre_id',
@@ -31,8 +31,8 @@ const VideogameGenreSchema = {
             model: 'genres',
             key: 'id'
         },
+        onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
-        onDelete: 'SET NULL'
     },
 }
 

@@ -48,18 +48,28 @@ async function searchApiGames(name) { //datos desde la api de busqueda
 
 async function detailById(id) { //detalles desde la api por ID
     try {
-        const urlGames = await axios.get(`${config.urlGames}/${id}?key=${config.apiKey}`);
-        let detailGame = urlGames.data
-        return {
-            id: detailGame.id,
-            name: detailGame.name,
-            img: detailGame.background_image,
-            description: detailGame.description,
-            released: detailGame.released,
-            rating: detailGame.rating,
-            platforms: detailGame.platforms.map(el => el.platform.name),
-            genres: detailGame.genres.map(el => el.name),
-        };
+
+
+        if (id.length > 30) {
+            // console.log(id)
+            let db = await models.Videogame.findAll();
+            let filterById = db.filter(el => el.dataValues.id === id)
+            return filterById[0].dataValues
+        } else {
+            // console.log(id)
+            const urlGames = await axios.get(`${config.urlGames}/${id}?key=${config.apiKey}`);
+            let detailGame = urlGames.data
+            return {
+                id: detailGame.id,
+                name: detailGame.name,
+                img: detailGame.background_image,
+                description: detailGame.description,
+                released: detailGame.released,
+                rating: detailGame.rating,
+                platforms: detailGame.platforms.map(el => el.platform.name),
+                genres: detailGame.genres.map(el => el.name),
+            };
+        }
     } catch (error) {
         console.log(error)
     }
@@ -67,7 +77,6 @@ async function detailById(id) { //detalles desde la api por ID
 
 async function getDbGames() { //datos desde la db
     try {
-        // const gamesDb = await models.Videogame.findAll()
 
         const gamesDb = await models.Videogame.findAll({
             include: {
@@ -159,38 +168,11 @@ async function createGame({name, img, description, released, rating, platforms, 
 // // Delete Game
 async function deleteGame(id) {
     try {
-
-        let game = await models.Videogame.sequelize.query(`
-            SELECT videogames_genres.id 
-            FROM videogames_genres
-            INNER JOIN videogames
-            ON videogames.id = videogames_genres.videogame_id
-            WHERE videogames.id = '${id}'
-        `);
-        let deleteGame = await models.Videogame.findByPk(id);
-        if(game[1].rows) {
-            await models.Videogame.sequelize.query(`
-                DELETE FROM videogames_genres 
-                WHERE videogame_id = '${id}';
-            `);
-            let delet = await models.Videogame.findByPk(id);
-            await delet.destroy();
-            return {
-                message: `Videogame ${id} deleted`
-            };
-        }
-        else if(deleteGame) {
-            await deleteGame.destroy();
-            return {
-                message: `Videogame ${id} deleted`
-            };
-        }
+        let delet = await models.Videogame.findByPk(id);
+        await delet.destroy();
         return {
-            message: `Videogame ${id} deleted not found`
+            message: `Videogame ${id} deleted`
         };
-        
-	
-	
 
     } catch (error) {
         console.log(error)
