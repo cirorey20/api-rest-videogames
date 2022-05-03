@@ -118,6 +118,20 @@ async function getAllGames() { //union de la api con mi db
     }
 }
 
+// Edit Game
+async function editGame(id, changes) {
+    try {        
+
+        let game = await models.Videogame.findByPk(id);
+        if(!game){
+            return boom.notFound('videogame not found')
+        }
+        const rta = await game.update(changes);
+        return rta;
+    } catch (error) {
+        console.log(error)
+    }    
+}
 // Crear un nuevo Videogame 
 async function createGame({name, img, description, released, rating, platforms, userId, genres}) {
     try {        
@@ -141,31 +155,43 @@ async function createGame({name, img, description, released, rating, platforms, 
     }    
 }
 
-// Edit Game
-async function editGame(id, changes) {
-    try {        
-
-        let game = await models.Videogame.findByPk(id);
-        if(!game){
-            return boom.notFound('videogame not found')
-        }
-        const rta = await game.update(changes);
-        return rta;
-    } catch (error) {
-        console.log(error)
-    }    
-}
 
 // // Delete Game
 async function deleteGame(id) {
-    try {        
+    try {
 
-        let game = await models.Videogame.findByPk(id);
-        if(!game){
-            return boom.notFound('videogame not found')
+        let game = await models.Videogame.sequelize.query(`
+            SELECT videogames_genres.id 
+            FROM videogames_genres
+            INNER JOIN videogames
+            ON videogames.id = videogames_genres.videogame_id
+            WHERE videogames.id = '${id}'
+        `);
+        let deleteGame = await models.Videogame.findByPk(id);
+        if(game[1].rows) {
+            await models.Videogame.sequelize.query(`
+                DELETE FROM videogames_genres 
+                WHERE videogame_id = '${id}';
+            `);
+            let delet = await models.Videogame.findByPk(id);
+            await delet.destroy();
+            return {
+                message: `Videogame ${id} deleted`
+            };
         }
-        await game.destroy();
-        return game;
+        else if(deleteGame) {
+            await deleteGame.destroy();
+            return {
+                message: `Videogame ${id} deleted`
+            };
+        }
+        return {
+            message: `Videogame ${id} deleted not found`
+        };
+        
+	
+	
+
     } catch (error) {
         console.log(error)
     }    
