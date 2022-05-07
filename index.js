@@ -38,8 +38,6 @@ app.use(logErrors);
 app.use(errorHandler);
 
 
-
-
 app.listen(port, () => {
   console.log(`Utilizando el puerto: ${port}`)
 })
